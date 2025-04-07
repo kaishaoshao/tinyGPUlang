@@ -1,3 +1,3 @@
 #!/bin/bash
 mkdir -p build
-cmake -B build
+cmake -G Ninja -B ./build -DCMAKE_BUILD_TYPE=Release 
