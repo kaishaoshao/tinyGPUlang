@@ -1,57 +1,59 @@
-## The language structure
+## 语言结构
 
-### Phylosophy
+### 设计哲学
 
-The language only capable of doing pointwise operations.
-This simplification means, in the thread level, the operations
-only happens on the same element for each tensor. 
-Pointwise operations are easy to implement on gpus.
+该语言只能进行逐点操作(pointwise operations)。这种简化意味着，在线程级别，操作仅发生在每个张量的相同元素上，逐点操作很容易在GPU上实现。
 
-Therefore no need for slicing, branching and looping.
+因此，不需要切片(slicing)、分支(branching)和循环(looping)。
 
-### Data
+### Data数据
 
-Two data structures: scalar and tensor.
-Scalars are single numbers, tensors can have any dimension
-but they need to have the same size in a kernel.
+两种数据结构：；标量(scalar)和张量(ternsor)。
 
-Data type: float32 (f32).
+标量是单个数字，张量可以有任意维度，
 
-* To define a scalar: f32 scalar_name;
-* To define a tensor: f32[] tensor_name;
+但在一个核函数(kernel)中他们需要具有相同的大小。
 
-### Operations
+数据类型：float32 (f32)
 
-The operands can be (for binary):
-* scalar, scalar
-* tensor, scalar
-* scalar, tensor
-* tensor, tensor (requires the same shape and type)
+* 定义一个标量：`f32 scalar_name`;
+* 定义一个张量：`f32[] tensor_name`;
 
-The operands (for unary):
-* scalar
-* tensor
+### 操作
 
-Operators:
-* elementwise add
-* elementwise sub
-* elementwise mul
-* elementwise div
-* sqrt
-* exp2
-* log2
-* abs
+操作数可以是(对于二元操作)：
 
-### Example code
+* scalar, scalar (标量，标量)
+* tensor, scalar (张量， 标量)
+* scalar, tensor (标量， 张量)
+* tensor, tensor (要求相同的形状和类型的张量)
 
-Files should end with **tgl**. No import of other file is supported.
+操作数(对于一元操作):
+
+* scalar (标量)
+* tensor (张量)
+
+运算符:
+
+* elementwise add (逐元素加法)
+* elementwise sub (逐元素减法)
+* elementwise mul (逐元素乘法)
+* elementwise div  (逐元素除法)
+* sqrt （平方根）
+* exp2 (2的指数）
+* log2  (以2为底)
+* abs   (绝对值)
+
+### 代码示例
+
+文件应以 **.tgl** 结尾。不支持导入其他文件。
 
 ```
 func device f32 calc_square_diff(f32 a, f32 b)
 {
     var e = a - b;     # result is stored in a temporary variable (defined with var)
     var e2 = e * e;
-    return e2;   
+    return e2;
 }
 
 func global void calc_mse(f32[] a, f32[] b, f32[] c, f32[] d)
@@ -68,6 +70,6 @@ func global void calc_mse(f32[] a, f32[] b, f32[] c, f32[] d)
 }
 ```
 
-## Next
+ 下一步
 
-[Abstract Syntax Tree](s3_ast.md)
+[抽象语法树](s3_ast抽象语法树.md)
